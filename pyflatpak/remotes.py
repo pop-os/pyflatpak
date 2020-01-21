@@ -35,11 +35,22 @@ from configparser import ConfigParser
 import logging
 import os
 import pathlib
+from subprocess import CalledProcessError
 
 import pyflatpak.command as command
 
 class NoRemoteExistsError(Exception):
     pass
+
+class AddRemoteError(Exception):
+    def __init__(self, msg, code=1):
+        self.msg = msg
+        self.code = code
+
+class DeleteRemoteError(Exception):
+    def __init__(self, msg, code=1):
+        self.msg = msg
+        self.code = code
 
 class Remotes():
     """
@@ -143,7 +154,12 @@ class Remotes():
             raise NoRemoteExistsError
         
         rm_command = command.Command(['remote-delete', '--force', remote_name])
-        rm_command.run()
+        try:
+            rm_command.run()
+        except CalledProcessError:
+            raise DeleteRemoteError(
+                f'Could not delete {remote_name}.'
+            )
         self.get_remotes()
     
     def add_remote(self, remote_name, remote_url, user=True):
@@ -160,6 +176,11 @@ class Remotes():
             cmd.append("--user")
 
         add_command = command.Command(cmd)
-        add_command.run()
+        try:
+            add_command.run()
+        except CalledProcessError:
+            raise AddRemoteError(
+                f'Could not add remote {remote_name} from {remote_url}.'
+            )
         self.get_remotes()
         
