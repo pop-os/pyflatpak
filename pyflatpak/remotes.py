@@ -107,6 +107,11 @@ class Remotes():
                         remote_about = config[section]['xa.description']
                     except KeyError:
                         remote_about = remote_name
+                
+                try:
+                    icon = config[section]['xa.icon']
+                except KeyError:
+                    icon = None
 
                 remote_url = config[section]['url']
 
@@ -115,6 +120,7 @@ class Remotes():
                 current_remotes[remote_name]['url'] = remote_url
                 current_remotes[remote_name]['option'] = option
                 current_remotes[remote_name]['about'] = remote_about
+                current_remotes[remote_name]['icon'] = icon
         
         return (option, current_remotes)
     
