@@ -93,7 +93,7 @@ class Release(Command):
                 raise Exception('Please specify the test version to release')
 
     def run(self):
-        command = ['npx', 'standard-version@next']
+        command = ['npx', 'standard-version']
         if self.dry_run:
             command.append('--dry-run')
         if self.prerelease:
