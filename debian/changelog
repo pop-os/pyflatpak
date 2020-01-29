@@ -1,3 +1,9 @@
+python3-pyflatpak (0.3.2) eoan; urgency=medium
+
+  * Version bump
+
+ -- Ian Santopiero <ian@pop-os.localdomain>  Wed, 29 Jan 2020 11:48:24 -0700
+
 python3-pyflatpak (0.3.0) eoan; urgency=medium
 
   * Fetches Icons and Hompage of repos if available
