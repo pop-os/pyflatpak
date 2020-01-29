@@ -1,7 +1,7 @@
 {
     "bumpFiles": [
       {
-        "file": "pyflatpak/__version__.py",
+        "filename": "pyflatpak/__version__.py",
         "updater": "version-updater.js"
       }
     ]
