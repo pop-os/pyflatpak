@@ -126,6 +126,17 @@ class Release(Command):
             if not self.dry_run:
                 subprocess.run(deb_command)
                 subprocess.run(deb_r_command)
+            
+            deb_git_command = ['git', 'commit', '-a', '-m']
+            if self.force_version:
+                deb_git_command.append(self.force_version)
+            else:
+                v = version['__version__']
+                deb_git_command.append(f'chore(deb): Deb Release {v}')
+            
+            print(deb_git_command)
+            if not self.dry_run:
+                subprocess.run(deb_git_command)
 
 class Test(Command):
     """Basic sanity checks on our code."""
