@@ -104,10 +104,10 @@ class Release(Command):
             command.append(self.force_version)
         print(command)
         subprocess.run(command)
-        if not self.dry_run:
-            subprocess.run(
-                ['git', 'push', '--follow-tags']
-            )
+        # if not self.dry_run:
+        #     subprocess.run(
+        #         ['git', 'push', '--follow-tags']
+        #     )
         
         if not self.skip_deb:
             deb_command = ['dch', '-v']

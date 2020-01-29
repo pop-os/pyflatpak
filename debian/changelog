@@ -2,7 +2,7 @@ python3-pyflatpak (0.3.0) eoan; urgency=medium
 
   * Fetches Icons and Hompage of repos if available
 
- -- Ian Santopiero <ian@pop-os.localdomain>  Wed, 29 Jan 2020 11:37:59 -0700
+ -- Ian Santopiero <ian@pop-os.localdomain>  Wed, 29 Jan 2020 11:43:04 -0700
 
 python3-pyflatpak (0.1.0) eoan; urgency=medium
 
