@@ -110,7 +110,16 @@ class Release(Command):
             )
         
         if not self.skip_deb:
-            deb_command = ['dch', '-v', version['__version__']]
+            deb_command = ['dch', '-v']
+            version = {}
+            with open ('pyflatpak/__version__.py') as fp:
+                exec(fp.read(), version)
+
+            if self.force_version:
+                deb_command.append(self.force_version)
+            else:
+                deb_command.append(version['__version__'])
+                
             deb_r_command = ['dch', '-r', '""']
             print(deb_command)
             print(deb_r_command)
