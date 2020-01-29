@@ -113,6 +113,11 @@ class Remotes():
                 except KeyError:
                     icon = None
 
+                try:
+                    remote_homepage = config[section]['xa.homepage']
+                except KeyError:
+                    remote_homepage = None
+
                 remote_url = config[section]['url']
 
                 current_remotes[remote_name]['name'] = remote_name
@@ -121,6 +126,7 @@ class Remotes():
                 current_remotes[remote_name]['option'] = option
                 current_remotes[remote_name]['about'] = remote_about
                 current_remotes[remote_name]['icon'] = icon
+                current_remotes[remote_name]['hompage'] = remote_homepage
         
         return (option, current_remotes)
     
