@@ -77,12 +77,14 @@ class Release(Command):
     user_options = [
         ('dry-run', None, 'Skip the actual release and do a dry run instead.'),
         ('prerelease', None, 'Release this version as a pre-release.'),
+        ('skip-deb', None, 'Skip doing a debian update for this release.'),
         ('force-version=', None, 'Force the version to update to the given value.')
     ]
 
     def initialize_options(self):
         self.dry_run = False
         self.prerelease = False
+        self.skip_deb = False
         self.force_version = None
     
     def finalize_options(self):
@@ -106,6 +108,15 @@ class Release(Command):
             subprocess.run(
                 ['git', 'push', '--follow-tags']
             )
+        
+        if not self.skip_deb:
+            deb_command = ['dch', '-v', version['__version__']]
+            deb_r_command = ['dch', '-r', '""']
+            print(deb_command)
+            print(deb_r_command)
+            if not self.dry_run:
+                subprocess.run(deb_command)
+                subprocess.run(deb_r_command)
 
 class Test(Command):
     """Basic sanity checks on our code."""
