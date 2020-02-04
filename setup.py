@@ -78,6 +78,7 @@ class Release(Command):
         ('dry-run', None, 'Skip the actual release and do a dry run instead.'),
         ('prerelease', None, 'Release this version as a pre-release.'),
         ('skip-deb', None, 'Skip doing a debian update for this release.'),
+        ('skip-git', None, 'Skip pushing to git origin.'),
         ('force-version=', None, 'Force the version to update to the given value.')
     ]
 
@@ -85,6 +86,7 @@ class Release(Command):
         self.dry_run = False
         self.prerelease = False
         self.skip_deb = False
+        self.skip_git = False
         self.force_version = None
     
     def finalize_options(self):
@@ -104,7 +106,7 @@ class Release(Command):
             command.append(self.force_version)
         print(command)
         subprocess.run(command)
-        if not self.dry_run:
+        if not self.dry_run and not self.skip_git:
             subprocess.run(
                 ['git', 'push', '--follow-tags']
             )
@@ -135,7 +137,7 @@ class Release(Command):
                 deb_git_command.append(f'chore(deb): Deb Release {v}')
             
             print(deb_git_command)
-            if not self.dry_run:
+            if not self.dry_run and not self.skip_git:
                 subprocess.run(deb_git_command)
 
 class Test(Command):
