@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.4.1 (2020-02-04)
+
+
+### Features
+
+* Better config parsing ([0d3209c](https://github.com/pop-os/pyflatpak/commit/0d3209cd0a462374d77c6257aeadf7da69478b62))
+
+
+### Bug Fixes
+
+* Fix spelling of "homepage" key ([87c3478](https://github.com/pop-os/pyflatpak/commit/87c3478d132bc49e57ab6104289086a00c9af31d))
+* Merge pull request [#1](https://github.com/pop-os/pyflatpak/issues/1) from pop-os/logging-spam ([55c1a2b](https://github.com/pop-os/pyflatpak/commit/55c1a2b0e07ff976277d832d1b4d0370360facba))
+* Stop creating a new log file in cwd every time we run ([f6e1e45](https://github.com/pop-os/pyflatpak/commit/f6e1e45eeab0847a8bcae346c8be1c739c153e7b))
+
 ## [0.4.0](https://github.com/pop-os/pyflatpak/compare/v0.3.1...v0.4.0) (2020-01-29)
 
 ### [0.3.2](https://github.com/pop-os/pyflatpak/compare/v0.3.1...v0.3.2) (2020-01-29)
