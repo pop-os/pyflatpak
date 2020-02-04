@@ -52,6 +52,11 @@ class DeleteRemoteError(Exception):
         self.msg = msg
         self.code = code
 
+class ModifyRemoteError(Exception):
+    def __init__(self, msg, code=1):
+        self.msg = msg
+        self.code = code
+
 class Remotes():
     """
     Queries information about flatpak remotes.
@@ -117,6 +122,13 @@ class Remotes():
                     remote_homepage = config[section]['xa.homepage']
                 except KeyError:
                     remote_homepage = None
+                
+                try:
+                    remote_enabled = True
+                    if config[section]['xa.disable'].lower() == 'true':
+                        remote_enabled = False
+                except KeyError:
+                    remote_enabled = True
 
                 remote_url = config[section]['url']
 
@@ -127,6 +139,7 @@ class Remotes():
                 current_remotes[remote_name]['about'] = remote_about
                 current_remotes[remote_name]['icon'] = icon
                 current_remotes[remote_name]['homepage'] = remote_homepage
+                current_remotes[remote_name]['enabled'] = remote_enabled
         
         return (option, current_remotes)
     
@@ -195,4 +208,24 @@ class Remotes():
                 f'Could not add remote {remote_name} from {remote_url}.'
             )
         self.get_remotes()
+    
+    def remote_set_disabled(self, remote_name, disabled=False):
+        """Sets a remote to enabled or disabled.
+
+        Arguments:
+            remote_name (str): The name of the remote
+            disabled (bool): Whether the remote should be enabled or not.
+        """
+        if disabled:
+            cmd = ['remote-modify' '--disable', remote_name]
+        else:
+            cmd = ['remote-modify' '--enable', remote_name]
         
+        modify_command = command.Command(cmd)
+        try:
+            modify_command.run()
+        
+        except CalledProcessError:
+            raise ModifyRemoteError(
+                f'Could not set xa.disable on {remote_name} to {disabled}'
+            )
