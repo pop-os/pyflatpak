@@ -1,3 +1,9 @@
+python3-pyflatpak (0.4.1) eoan; urgency=medium
+
+  * The "homepage" key for remotes was named incorrectly. This is fixed.
+
+ -- Ian Santopiero <ian@pop-os.localdomain>  Tue, 04 Feb 2020 10:50:37 -0700
+
 python3-pyflatpak (0.4.0) eoan; urgency=medium
 
   * Bump version to correct issues with automatic versioning
