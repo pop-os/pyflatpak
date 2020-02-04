@@ -209,17 +209,17 @@ class Remotes():
             )
         self.get_remotes()
     
-    def remote_set_disabled(self, remote_name, disabled=False):
-        """Sets a remote to enabled or disabled.
+    def remote_set_enabled(self, remote_name, enabled=True):
+        """Sets a remote to enabled or enabled.
 
         Arguments:
             remote_name (str): The name of the remote
-            disabled (bool): Whether the remote should be enabled or not.
+            enabled (bool): Whether the remote should be enabled or not.
         """
-        if disabled:
-            cmd = ['remote-modify' '--disable', remote_name]
+        if enabled:
+            cmd = ['remote-modify', '--enable', remote_name]
         else:
-            cmd = ['remote-modify' '--enable', remote_name]
+            cmd = ['remote-modify', '--disable', remote_name]
         
         modify_command = command.Command(cmd)
         try:
@@ -227,5 +227,6 @@ class Remotes():
         
         except CalledProcessError:
             raise ModifyRemoteError(
-                f'Could not set xa.disable on {remote_name} to {disabled}'
+                f'Could not set xa.disable on {remote_name} to {enabled}'
             )
+        self.get_remotes()
