@@ -126,7 +126,7 @@ class Remotes():
                 current_remotes[remote_name]['option'] = option
                 current_remotes[remote_name]['about'] = remote_about
                 current_remotes[remote_name]['icon'] = icon
-                current_remotes[remote_name]['hompage'] = remote_homepage
+                current_remotes[remote_name]['homepage'] = remote_homepage
         
         return (option, current_remotes)
     
