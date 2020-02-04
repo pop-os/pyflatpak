@@ -2,7 +2,7 @@ python3-pyflatpak (0.4.0) eoan; urgency=medium
 
   * Bump version to correct issues with automatic versioning
 
- -- Ian Santopiero <ian@pop-os.localdomain>  Wed, 29 Jan 2020 11:59:56 -0700
+ -- Ian Santopiero <ian@pop-os.localdomain>  Tue, 04 Feb 2020 10:49:36 -0700
 
 python3-pyflatpak (0.3.2) eoan; urgency=medium
 
