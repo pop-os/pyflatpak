@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 0.5.0 (2020-02-05)
+
+
+### Features
+
+* Allow enabling or disabling remotes ([31e1512](https://github.com/pop-os/pyflatpak/commit/31e1512bf2ba21ffe21ea7999a66d0f0638d68ce))
+* Better config parsing ([0d3209c](https://github.com/pop-os/pyflatpak/commit/0d3209cd0a462374d77c6257aeadf7da69478b62))
+
+
+### Bug Fixes
+
+* Fix typo in "homepage" key name ([ed1058f](https://github.com/pop-os/pyflatpak/commit/ed1058f613fe81f80650aa146cb5bce9f045795f))
+* Merge pull request [#1](https://github.com/pop-os/pyflatpak/issues/1) from pop-os/logging-spam ([55c1a2b](https://github.com/pop-os/pyflatpak/commit/55c1a2b0e07ff976277d832d1b4d0370360facba))
+* Stop creating a new log file in cwd every time we run ([f6e1e45](https://github.com/pop-os/pyflatpak/commit/f6e1e45eeab0847a8bcae346c8be1c739c153e7b))
+* Use more intuitive names for enabled vs disabled ([149bd10](https://github.com/pop-os/pyflatpak/commit/149bd10b034229beb106931bdf415cee33df0220))
+
 ### 0.4.1 (2020-02-04)
 
 
