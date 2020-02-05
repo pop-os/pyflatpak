@@ -95,7 +95,7 @@ class Release(Command):
                 raise Exception('Please specify the test version to release')
 
     def run(self):
-        command = ['npx', 'standard-version']
+        command = ['npx', 'standard-version@next']
         if self.dry_run:
             command.append('--dry-run')
         if self.prerelease:
@@ -117,10 +117,7 @@ class Release(Command):
             with open ('pyflatpak/__version__.py') as fp:
                 exec(fp.read(), version)
 
-            if self.force_version:
-                deb_command.append(self.force_version)
-            else:
-                deb_command.append(version['__version__'])
+            deb_command.append(version['__version__'])
                 
             deb_r_command = ['dch', '-r', '""']
             print(deb_command)
