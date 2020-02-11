@@ -30,10 +30,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 This is a python representation of a remote.
 """
-
+from configparser import ConfigParser
 import logging
-
-import remotes
+import os.path
+from pathlib import Path
 
 class RemoteError(Exception):
     def __init__(self, msg, code=1):
@@ -42,12 +42,18 @@ class RemoteError(Exception):
     
 class Remote:
 
-    def __init__(self, name, option):
+    fp_sys_config_filepath = '/var/lib/flatpak/'
+    fp_user_config_filepath = os.path.join(
+        Path.home(),
+        '.local/share/flatpak'
+    )
+    fp_config_filename = 'repo/config'
+
+    def __init__(self, name):
         """ A Flatpak Remote
 
         Arguments:
             name (str): the internal flatpak name to look up.
-            option (str): The remote type, either 'user' or 'remote'.
         
         Attributes:
             name (str): The internal name for this remote
@@ -62,13 +68,59 @@ class Remote:
             homepage (str): The URL for this remote's homepage.
             enabled (bool): Whether the remote is enabled or not.
         """
-        _remotes_obj = remotes.Remotes()
-        remote_data = remotes.get_remotes()
-
         self.log = logging.getLogger(f'pyflatpak.{name}')
-        
         self._name = name
-        self._option = option
+        self._get_option()
+        self._get_config()
+        
+    
+    # Methods
+    def _get_option(self):
+        """Determines whether the requested remote is user or not.
+
+        We set `option` accordingly and set the correct config file path too.
+        """
+        self.log.debug('Checking if user or system')
+        config = ConfigParser()
+        fp_user_config_path = os.path.join(
+            self.fp_user_config_filepath, self.fp_config_filename
+        )
+        with open(fp_user_config_path) as config_file:
+            config.read_file(config_file)
+        for section in config.sections():
+            self.log.debug('user config sections: %s', config.sections())
+            if self.name in section:
+                self.log.debug('Found in user')
+                self.config_path = fp_user_config_path
+                self._option = 'user'
+                return 
+        
+        fp_sys_config_path = os.path.join(
+            self.fp_sys_config_filepath, self.fp_config_filename
+        )
+        with open(fp_sys_config_path) as config_file:
+            config.read_file(config_file)
+        for section in config.sections():
+            self.log.debug('system config sections: %s', config.sections())
+            if self.name in section:
+                self.log.debug('Found in system')
+                self.config_path = fp_sys_config_path
+                self._option = 'system'
+                return
+        
+        self.log.critical('Could not find remote!')
+        raise RemoteError(f'Remote \'{self.name}\' doesn\'t exist')
+
+    def _get_config(self):
+        """Updates the config for this remote. 
+
+        This should be done after any changes to any configuration.
+        """
+        self.log.debug('Getting configuration')
+        self._raw_config = ConfigParser()
+        with open(self.config_path) as config_file:
+            self._raw_config.read_file(config_file)
+        self.config = self._raw_config[f'remote "{self.name}"']
 
     # Data attributes
     @property

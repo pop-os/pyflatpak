@@ -34,6 +34,7 @@ This is the demo cli client implementing the API provided.
 import logging
 import logging.handlers as handlers
 
+from .remote import Remote
 from . import remotes as Remotes
 from . import command as Command
 
@@ -59,7 +60,7 @@ console_level = level[0]
 file_level = level[0]
 
 stream_fmt = logging.Formatter(
-    '%(name)-21s: %(message)s')
+    '%(name)s: %(message)s')
 file_fmt = logging.Formatter(
     '%(asctime)s - %(name)-21s: %(levelname)-8s %(message)s')
 log = logging.getLogger('pyflatpak')
@@ -89,3 +90,15 @@ remotes = Remotes.Remotes()
 def validate(url):
     valid_fp_url = url.endswith('.flatpakrepo')
     return valid_fp_url
+
+def get_remote_for_name(name):
+    """ Find the remote with the given name and get an object for it.
+
+    Arguments:
+        name (str): The name of the remote to get.
+    
+    Returns:
+        The requested :obj:`Remote`.
+    """
+    remote = Remote(name)
+    return remote
