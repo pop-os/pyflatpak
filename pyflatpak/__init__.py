@@ -60,7 +60,7 @@ console_level = level[0]
 file_level = level[0]
 
 stream_fmt = logging.Formatter(
-    '%(name)s: %(message)s')
+    '%(name)s %(levelname)-8s: %(message)s')
 file_fmt = logging.Formatter(
     '%(asctime)s - %(name)-21s: %(levelname)-8s %(message)s')
 log = logging.getLogger('pyflatpak')

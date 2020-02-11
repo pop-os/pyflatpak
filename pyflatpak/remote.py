@@ -134,7 +134,11 @@ class Remote:
     @property
     def title(self):
         """ str: the fancy representation of this remote's name."""
-        return self._title
+        try:
+            return self.config['xa.title']
+        except KeyError as e:
+            self.log.info('No title set, using name. (%s)', e.args)
+            return self.name
     @title.setter
     def title(self, title):
         self._title = title
@@ -142,7 +146,7 @@ class Remote:
     @property
     def url(self):
         """ str: The URL that this remote uses to download apps."""
-        return self._url
+        return self.config['url']
     @url.setter
     def url(self, url):
         self._url = url
@@ -177,8 +181,8 @@ class Remote:
         remote maintainers.
         """
         try:
-            return self._comment
-        except AttributeError as e:
+            return self.config['xa.comment']
+        except KeyError as e:
             self.log.info('No comment found: %s', e.args)
             return None
     @comment.setter
@@ -194,8 +198,8 @@ class Remote:
         typically set by the remote maintainers.
         """
         try:
-            return self._description
-        except AttributeError as e:
+            return self.config['xa.description']
+        except KeyError as e:
             self.log.info('No description found: %s', e.args)
             return None
     @description.setter
@@ -210,8 +214,8 @@ class Remote:
         for a user. This is typically set by the remote maintainers.
         """
         try:
-            return self._icon
-        except AttributeError as e:
+            return self.config['xa.icon']
+        except KeyError as e:
             self.log.info('No icon found: %s', e.args)
             return None
     @icon.setter
@@ -227,7 +231,7 @@ class Remote:
         information. This is typically set by the remote maintainers.
         """
         try:
-            return self._homepage
+            return self.config['xa.homepage']
         except AttributeError as e:
             self.log.info('No homepage found: %s', e.args)
             return None
@@ -238,7 +242,17 @@ class Remote:
     @property
     def enabled(self):
         """ bool: Whether the remote is enabled or not."""
-        return self._enabled
+        try:
+            # This looks backwards and sets True if disabled. This is because
+            # FlatPak tracks if remtoes are *disabled*, while we track *enabled*
+            # This is more intuitive. 
+            _enabled = self.config['xa.disable'].lower() in [
+                'false', 'no', '0'
+            ]
+            return _enabled
+        except KeyError as e:
+            self.log.info('Disable key not found, default is enabled. (%s)', e.args)
+            return True
     @enabled.setter
     def enabled(self, enabled):
         """ Allow accepting strings as input values."""
